@@ -21,7 +21,7 @@ function varargout = Gradient_Descent_interactive_examples(varargin)
 
 % Edit the above text to modify the response to help Gradient_Descent_interactive_examples
 
-% Last Modified by GUIDE v2.5 02-Oct-2019 22:38:35
+% Last Modified by GUIDE v2.5 04-Oct-2019 19:03:38
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -74,6 +74,8 @@ y = -5:0.1:5;
 Z = quadratic_plot(X,Y);
 hold on
 contour(X,Y,Z)
+x0 = [str2num(handles.x01_value.String);str2num(handles.x02_value.String)];
+plot(x0(1),x0(2),'r+','MarkerSize',10);
 box on
 
 % Get default command line output from handles structure
@@ -92,7 +94,7 @@ function slider1_Callback(hObject, eventdata, handles)
 handles = guidata(hObject);
 
 alpha = get(hObject,'Value');
-handles.valeur_alpha_txt.String = num2str(round(alpha,3));
+handles.valeur_alpha_txt.String = num2str(round(alpha,4));
 x0 = [str2num(handles.x01_value.String);str2num(handles.x02_value.String)];
 
 if handles.checkbox1.Value
@@ -105,8 +107,10 @@ end
 [sol, points] = gradient_descent(obj_function, x0, alpha);
 cla(handles.axes1)
 
+
 plot(handles.axes1,[x0(1) points(1,:)],[x0(2) points(2,:)],'r','LineStyle','-','Marker','o');
 hold(handles.axes1,'on')
+plot(handles.axes1,x0(1),x0(2),'r+','MarkerSize',10);
 if handles.checkbox1.Value
     x = -20:0.1:20;
     y = -5:0.1:5;
@@ -155,6 +159,9 @@ handles.slider1.Min = 0;
 handles.slider1.Max = 0.5;
 handles.slider1.Value = (handles.slider1.Min + handles.slider1.Max)/2;
 
+alpha = handles.slider1.Value;
+handles.valeur_alpha_txt.String = num2str(round(alpha,5));
+
 cla(handles.axes1)
 x = -20:0.1:20;
 y = -5:0.1:5;
@@ -163,6 +170,12 @@ Z = quadratic_plot(X,Y);
 contour(X,Y,Z,'Parent', handles.axes1)
 xlim(handles.axes1,[-20,20]);
 ylim(handles.axes1,[-5,5]);
+
+handles.x01_value.String ='-4.5';
+handles.x02_value.String ='4.5';
+
+hold(handles.axes1,'on')
+plot(handles.axes1,-4.5,4.5,'r+','MarkerSize',10);
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox1
 
@@ -175,10 +188,14 @@ function checkbox2_Callback(hObject, eventdata, handles)
 handles.checkbox1.Value = 0;
 
 handles.step_min_val.String = 0;
-handles.step_max_val.String = 0.01;
+handles.step_max_val.String = 0.005;
 handles.slider1.Min = 0;
-handles.slider1.Max = 0.01;
+handles.slider1.Max = 0.005;
 handles.slider1.Value = (handles.slider1.Min + handles.slider1.Max)/2;
+
+alpha = handles.slider1.Value;
+handles.valeur_alpha_txt.String = num2str(round(alpha,5));
+
 cla(handles.axes1)
 
 x = -2:0.01:2;
@@ -189,6 +206,12 @@ Z = rosenbrock_plot(X,Y);
 contour(X,Y,Z,'Parent', handles.axes1,'LevelList',[0.1,3,5,10,20,50,200,450,1500]);
 xlim(handles.axes1,[-2,2]);
 ylim(handles.axes1,[-1,3]);
+
+handles.x01_value.String ='-1.5';
+handles.x02_value.String ='1.5';
+
+hold(handles.axes1,'on')
+plot(handles.axes1,-1.5,1.5,'r+','MarkerSize',10);
 % Hint: get(hObject,'Value') returns toggle state of checkbox2
 
     
@@ -212,7 +235,9 @@ function [Z] = rosenbrock_plot(X,Y)
 
 
 function [sol, points] = gradient_descent(obj_function, x0, alpha)
-    Nmax = 20;Nmax = 200;
+    
+    Nmax = 500;
+    
     points = zeros(2,Nmax);
     
     xcurr = x0;
@@ -240,7 +265,7 @@ elseif handles.checkbox2.Value
     lim_val_max = 2;
     lim_val_min = -lim_val_max;
 end
-value = str2num(hObject.String);
+value = round(str2num(hObject.String),1);
 
 if(isempty(value))
     value = 1;
@@ -283,11 +308,12 @@ elseif handles.checkbox2.Value
     lim_val_min = -1;
 end
 
-value = str2num(hObject.String);
+value = round(str2num(hObject.String),1);
 if(isempty(value))
     value = 1;
     hObject.String = '1';
 end
+
 if value <lim_val_min
     value = lim_val_min;
 elseif value >lim_val_max
@@ -310,3 +336,12 @@ function x02_value_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes during object creation, after setting all properties.
+function axes1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to axes1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: place code in OpeningFcn to populate axes1
