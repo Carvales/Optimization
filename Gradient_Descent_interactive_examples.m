@@ -53,6 +53,15 @@ function Gradient_Descent_interactive_examples_OpeningFcn(hObject, eventdata, ha
 
 % Choose default command line output for Gradient_Descent_interactive_examples
 handles.output = hObject;
+x = -20:0.1:20;
+y = -5:0.1:5;
+[X,Y] = meshgrid(x,y);
+Z = quadratic_plot(X,Y);
+hold on
+contour(X,Y,Z)
+x0 = [str2num(handles.x01_value.String);str2num(handles.x02_value.String)];
+plot(x0(1),x0(2),'r+','MarkerSize',10);
+box on
 
 % Update handles structure
 guidata(hObject, handles);
@@ -67,16 +76,6 @@ function varargout = Gradient_Descent_interactive_examples_OutputFcn(hObject, ev
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-x = -20:0.1:20;
-y = -5:0.1:5;
-[X,Y] = meshgrid(x,y);
-Z = quadratic_plot(X,Y);
-hold on
-contour(X,Y,Z)
-x0 = [str2num(handles.x01_value.String);str2num(handles.x02_value.String)];
-plot(x0(1),x0(2),'r+','MarkerSize',10);
-box on
 
 % Get default command line output from handles structure
 varargout{1} = handles.output;
