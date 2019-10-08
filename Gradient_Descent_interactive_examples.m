@@ -61,6 +61,7 @@ hold on
 contour(X,Y,Z)
 x0 = [str2num(handles.x01_value.String);str2num(handles.x02_value.String)];
 plot(x0(1),x0(2),'r+','MarkerSize',10);
+plot(handles.axes1,0,0,'b+','MarkerSize',10);
 box on
 
 % Update handles structure
@@ -116,15 +117,20 @@ if handles.checkbox1.Value
     [X,Y] = meshgrid(x,y);
     Z = quadratic_plot(X,Y);
     contour(X,Y,Z,'Parent', handles.axes1)
+    plot(handles.axes1,0,0,'b+','MarkerSize',10);
+    plot(handles.axes1,sol(1),sol(2),'ko','MarkerSize',10);
     hold(handles.axes1,'off')
     xlim(handles.axes1,[-20,20]);
     ylim(handles.axes1,[-5,5]);
+    
 elseif handles.checkbox2.Value
     x = -2:0.01:2;
     y = -1:0.01:3;
     [X,Y] = meshgrid(x,y);
     Z = rosenbrock_plot(X,Y);
     contour(X,Y,Z,'Parent', handles.axes1,'LevelList',[0.1,3,5,10,20,50,200,450,1500])
+    plot(handles.axes1,sol(1),sol(2),'ko','MarkerSize',10);
+    plot(handles.axes1,1,1,'b+','MarkerSize',10);
     hold(handles.axes1,'off')
     xlim(handles.axes1,[-2,2]);
     ylim(handles.axes1,[-1,3]);
@@ -156,24 +162,28 @@ handles.step_min_val.String = 0;
 handles.step_max_val.String = 0.5;
 handles.slider1.Min = 0;
 handles.slider1.Max = 0.5;
-handles.slider1.Value = (handles.slider1.Min + handles.slider1.Max)/2;
+% handles.slider1.Value = (handles.slider1.Min + handles.slider1.Max)/2;
+handles.slider1.Value = 0;
+handles.function_text.String = "f(x,y) = x² + 2·y²";
 
 alpha = handles.slider1.Value;
 handles.valeur_alpha_txt.String = num2str(round(alpha,5));
 
 cla(handles.axes1)
+hold(handles.axes1,'on')
 x = -20:0.1:20;
 y = -5:0.1:5;
 [X,Y] = meshgrid(x,y);
 Z = quadratic_plot(X,Y);
 contour(X,Y,Z,'Parent', handles.axes1)
+plot(handles.axes1,0,0,'b+','MarkerSize',10);
 xlim(handles.axes1,[-20,20]);
 ylim(handles.axes1,[-5,5]);
 
 handles.x01_value.String ='-4.5';
 handles.x02_value.String ='4.5';
 
-hold(handles.axes1,'on')
+
 plot(handles.axes1,-4.5,4.5,'r+','MarkerSize',10);
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox1
@@ -190,26 +200,29 @@ handles.step_min_val.String = 0;
 handles.step_max_val.String = 0.005;
 handles.slider1.Min = 0;
 handles.slider1.Max = 0.005;
-handles.slider1.Value = (handles.slider1.Min + handles.slider1.Max)/2;
+% handles.slider1.Value = (handles.slider1.Min + handles.slider1.Max)/2;
+handles.slider1.Value = 0;
+handles.function_text.String = "f(x,y) = (1-x)² + 100·(y-x²)²";
 
 alpha = handles.slider1.Value;
 handles.valeur_alpha_txt.String = num2str(round(alpha,5));
 
 cla(handles.axes1)
-
+hold(handles.axes1,'on')
 x = -2:0.01:2;
 y = -1:0.01:3;
 [X,Y] = meshgrid(x,y);
 
 Z = rosenbrock_plot(X,Y);
 contour(X,Y,Z,'Parent', handles.axes1,'LevelList',[0.1,3,5,10,20,50,200,450,1500]);
+plot(handles.axes1,1,1,'b+','MarkerSize',10);
 xlim(handles.axes1,[-2,2]);
 ylim(handles.axes1,[-1,3]);
 
 handles.x01_value.String ='-1.5';
 handles.x02_value.String ='1.5';
 
-hold(handles.axes1,'on')
+
 plot(handles.axes1,-1.5,1.5,'r+','MarkerSize',10);
 % Hint: get(hObject,'Value') returns toggle state of checkbox2
 
@@ -235,7 +248,7 @@ function [Z] = rosenbrock_plot(X,Y)
 
 function [sol, points] = gradient_descent(obj_function, x0, alpha)
     
-    Nmax = 500;
+    Nmax = 5000;
     
     points = zeros(2,Nmax);
     
@@ -277,6 +290,8 @@ elseif value >lim_val_max
 end
 hObject.String = num2str(value);
 handles.Ti_value.Value = value;
+handles.slider1.Value = 0;
+slider1_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of x01_value as text
 %        str2double(get(hObject,'String')) returns contents of x01_value as a double
 
@@ -320,6 +335,8 @@ elseif value >lim_val_max
 end
 hObject.String = num2str(value);
 handles.Ti_value.Value = value;
+handles.slider1.Value = 0;
+slider1_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of x02_value as text
 %        str2double(get(hObject,'String')) returns contents of x02_value as a double
 
