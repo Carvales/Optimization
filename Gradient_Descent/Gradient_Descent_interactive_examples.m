@@ -51,17 +51,6 @@ function Gradient_Descent_interactive_examples_OpeningFcn(hObject, eventdata, ha
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to Gradient_Descent_interactive_examples (see VARARGIN)
 
-% Populate axe
-try
-    logo = imread('./Pictures/2D_logo.png');
-    image(handles.axes2,logo)
-catch
-    disp('Pictures not found.')
-end
-
-axis(handles.axes2,'off')
-axis(handles.axes2,'image')
-
 % Choose default command line output for Gradient_Descent_interactive_examples
 handles.output = hObject;
 handles.affichage_value = 0 ;
@@ -527,18 +516,6 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 handles.affichage_value = ~handles.affichage_value;
-try
-    if handles.affichage_value
-        logo = imread('./Pictures/3D_logo.png');
-    else
-        logo = imread('./Pictures/2D_logo.png');
-    end
-    image(handles.axes2,logo)
-catch
-    disp('Pictures not found.')
-end
-axis(handles.axes2,'off')
-axis(handles.axes2,'image')
     
 guidata(hObject, handles);
 
