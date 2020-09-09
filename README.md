@@ -2,10 +2,10 @@
 
 ## Description
 This repository is intended for :
-- Students in Optimization that need to experience stuff in order to learn. 
-- Professors in Optimization that want to include visual, practical and pedagogical elements in your lectures.
+- Students in Optimization who need to experience stuff in order to learn. 
+- Professors in Optimization who want to include visual, practical and pedagogical elements in their lectures.
 
-Matlab applications are proposed to visualize and understand optimization algorithms.
+Matlab applications (designed with appdesigner) are proposed to visualize and understand optimization algorithms.
 
 ## Available tools:
 
@@ -31,7 +31,7 @@ https://github.com/Carvales/optimization-visu-tools.git
 ```
 or download zip files.
 
-2) Choose the tool
+2) Choose the tool in the according folder
 
 3) Run on Matlab command window the name of the tool
 
